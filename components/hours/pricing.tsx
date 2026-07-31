@@ -35,7 +35,7 @@ const TIERS: Tier[] = [
       'Ships when you order',
       'No subscription required',
     ],
-    checkoutUrl: 'https://elevate2xl.myshopify.com/cart/48806219514080:1',
+    checkoutUrl: 'https://elevate2xl.myshopify.com/cart/53759428985056:1',
   },
   {
     name: 'Monthly',
@@ -50,7 +50,7 @@ const TIERS: Tier[] = [
       'Pause or cancel anytime',
     ],
     popular: true,
-    checkoutUrl: 'https://elevate2xl.myshopify.com/cart/48806219514080:1',
+    checkoutUrl: 'https://elevate2xl.myshopify.com/cart/53759429017824:1?selling_plan=11321442528',
   },
   {
     name: 'Quarterly',
@@ -63,7 +63,7 @@ const TIERS: Tier[] = [
       'Priority pharmacy fulfillment',
       'Dedicated care coordinator',
     ],
-    checkoutUrl: 'https://elevate2xl.myshopify.com/cart/48806219514080:1',
+    checkoutUrl: 'https://elevate2xl.myshopify.com/cart/53759429050592:1?selling_plan=11321475296',
   },
 ]
 export function Pricing() {
