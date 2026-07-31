@@ -29,15 +29,20 @@ function IntakeFormContent() {
     else if (step === 'medical') setStep('summary')
   }
 
-  const handleCompleteAndCheckout = () => {
-    const checkoutUrls: Record<string, string> = {
-      starter: 'https://elevate2xl.myshopify.com/cart/53759428985056:1',
-      monthly: 'https://elevate2xl.myshopify.com/cart/53759429017824:1?selling_plan=11321442528',
-      quarterly: 'https://elevate2xl.myshopify.com/cart/53759429050592:1?selling_plan=11321475296',
+const handleCompleteAndCheckout = async () => {
+    try {
+      const response = await fetch('/intake/api', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: planParam, patientData: formData }),
+      })
+      const data = await response.json()
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl
+      }
+    } catch (err) {
+      console.error('Submission error:', err)
     }
-
-    const targetUrl = checkoutUrls[planParam] || checkoutUrls['monthly']
-    window.location.href = targetUrl
   }
 
   return (
