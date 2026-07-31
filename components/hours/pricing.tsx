@@ -35,7 +35,7 @@ const TIERS: Tier[] = [
       'Ships when you order',
       'No subscription required',
     ],
-    checkoutUrl: 'https://hours4ever.com/cart/48806219514080:1',
+    checkoutUrl: 'https://elevate2xl.myshopify.com/cart/48806219514080:1',
   },
   {
     name: 'Monthly',
@@ -50,7 +50,7 @@ const TIERS: Tier[] = [
       'Pause or cancel anytime',
     ],
     popular: true,
-    checkoutUrl: 'https://hours4ever.com/cart/48806219514080:1',
+    checkoutUrl: 'https://elevate2xl.myshopify.com/cart/48806219514080:1',
   },
   {
     name: 'Quarterly',
@@ -63,7 +63,7 @@ const TIERS: Tier[] = [
       'Priority pharmacy fulfillment',
       'Dedicated care coordinator',
     ],
-    checkoutUrl: 'https://hours4ever.com/cart/48806219514080:1',
+    checkoutUrl: 'https://elevate2xl.myshopify.com/cart/48806219514080:1',
   },
 ]
 export function Pricing() {
