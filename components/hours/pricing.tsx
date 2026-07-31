@@ -35,8 +35,7 @@ const TIERS: Tier[] = [
       'Ships when you order',
       'No subscription required',
     ],
-    checkoutUrl: 'https://elevate2xl.myshopify.com/cart/53759428985056:1',
-  },
+checkoutUrl: '/intake?plan=starter',  },
   {
     name: 'Monthly',
     price: 99,
@@ -51,8 +50,7 @@ const TIERS: Tier[] = [
     ],
     popular: true,
     checkoutUrl: 'https://elevate2xl.myshopify.com/cart/53759429017824:1?selling_plan=11321442528',
-  },
-  {
+checkoutUrl: '/intake?plan=monthly',  {
     name: 'Quarterly',
     price: 249,
     cadence: 'per quarter',
@@ -65,8 +63,7 @@ const TIERS: Tier[] = [
     ],
     checkoutUrl: 'https://elevate2xl.myshopify.com/cart/53759429050592:1?selling_plan=11321475296',
   },
-]
-export function Pricing() {
+checkoutUrl: '/intake?plan=quarterly',export function Pricing() {
   return (
     <section id="pricing" className="relative bg-ink px-5 py-24 md:px-8 md:py-32">
       <div
