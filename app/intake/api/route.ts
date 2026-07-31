@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { plan, patientData } = body
 
-    const selectedPlan = SHOPIFY_PLANS[plan] || SHOPIFY_PLans['monthly']
+    cconst selectedPlan = SHOPIFY_PLANS[plan] || SHOPIFY_PLANS['monthly']
     const cartUrl = new URL('https://elevate2xl.myshopify.com/cart/add')
     cartUrl.searchParams.append('id', selectedPlan.variantId)
     cartUrl.searchParams.append('quantity', '1')
