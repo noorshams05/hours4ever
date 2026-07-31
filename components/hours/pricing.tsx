@@ -31,11 +31,12 @@ const TIERS: Tier[] = [
     blurb: 'Try the most powerful multi-ingredient ED formula available today. No hype. JUST RESULTS.',
     features: [
       'Doctor consultation included',
-      'Most powerful multi-ingredient ED formula',
+      'Most powerful multi-ingredient formula',
       'Ships when you order',
       'No subscription required',
     ],
-checkoutUrl: '/intake?plan=starter',  
+    checkoutUrl: '/intake?plan=starter',
+  },
   {
     name: 'Monthly',
     price: 99,
@@ -49,8 +50,9 @@ checkoutUrl: '/intake?plan=starter',
       'Pause or cancel anytime',
     ],
     popular: true,
-    checkoutUrl: 'https://elevate2xl.myshopify.com/cart/53759429017824:1?selling_plan=11321442528',
-checkoutUrl: '/intake?plan=monthly',  
+    checkoutUrl: '/intake?plan=monthly',
+  },
+  {
     name: 'Quarterly',
     price: 249,
     cadence: 'per quarter',
@@ -61,11 +63,9 @@ checkoutUrl: '/intake?plan=monthly',
       'Priority pharmacy fulfillment',
       'Dedicated care coordinator',
     ],
-    checkoutUrl: 'https://elevate2xl.myshopify.com/cart/53759429050592:1?selling_plan=11321475296',
+    checkoutUrl: '/intake?plan=quarterly',
   },
-checkoutUrl: '/intake?plan=quarterly',export function Pricing() 
-  return (
-    <section id="pricing" className="relative bg-ink px-5 py-24 md:px-8 md:py-32">
+]
       <div
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-0 -z-0 h-[40vh] w-[70vh] -translate-x-1/2 rounded-full opacity-25 blur-[120px] hours-radial-glow"
