@@ -180,10 +180,9 @@ function TiltCard({ tier }: { tier: Tier }) {
 
       <div className="mt-8">
         <MagneticButton
-          as="button"
+          href="https://hours4ever.com/cart/48806219514080:1"
           variant={tier.popular ? 'solid' : 'ghost'}
           className="w-full"
-          onClick={() => console.log(`[v0] Selected plan: ${tier.name}`)}
         >
           Choose {tier.name}
         </MagneticButton>
