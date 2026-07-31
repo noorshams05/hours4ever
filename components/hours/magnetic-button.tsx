@@ -12,6 +12,8 @@ type MagneticButtonProps = {
   children: ReactNode
   className?: string
   variant?: 'solid' | 'ghost'
+  /** Render as a link (default) or a plain button with no navigation. */
+  as?: 'link' | 'button'
   href?: string
   onClick?: () => void
   ariaLabel?: string
@@ -21,12 +23,13 @@ export function MagneticButton({
   children,
   className = '',
   variant = 'solid',
+  as = 'link',
   href = '#',
   onClick,
   ariaLabel,
 }: MagneticButtonProps) {
   const reduce = useReducedMotion()
-  const ref = useRef<HTMLAnchorElement>(null)
+  const ref = useRef<HTMLAnchorElement & HTMLButtonElement>(null)
   const x = useMotionValue(0)
   const y = useMotionValue(0)
   const sx = useSpring(x, { stiffness: 260, damping: 18, mass: 0.4 })
@@ -53,20 +56,29 @@ export function MagneticButton({
       ? 'bg-pink-hot text-white shadow-[0_10px_40px_-12px_rgba(236,12,120,0.7)] hover:shadow-[0_18px_60px_-10px_rgba(236,12,120,0.9)]'
       : 'border border-blush/30 bg-white/5 text-blush backdrop-blur-sm hover:border-blush/60'
 
+  const sharedProps = {
+    ref,
+    'aria-label': ariaLabel,
+    onClick,
+    onMouseMove: handleMove,
+    onMouseLeave: reset,
+    style: { x: sx, y: sy },
+    whileHover: reduce ? undefined : { scale: 1.03 },
+    whileTap: reduce ? undefined : { scale: 0.97 },
+    transition: { type: 'spring' as const, stiffness: 300, damping: 20 },
+    className: `${base} ${styles} ${className}`,
+  }
+
+  if (as === 'button') {
+    return (
+      <motion.button type="button" {...sharedProps}>
+        {children}
+      </motion.button>
+    )
+  }
+
   return (
-    <motion.a
-      ref={ref}
-      href={href}
-      aria-label={ariaLabel}
-      onClick={onClick}
-      onMouseMove={handleMove}
-      onMouseLeave={reset}
-      style={{ x: sx, y: sy }}
-      whileHover={reduce ? undefined : { scale: 1.03 }}
-      whileTap={reduce ? undefined : { scale: 0.97 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-      className={`${base} ${styles} ${className}`}
-    >
+    <motion.a href={href} {...sharedProps}>
       {children}
     </motion.a>
   )
