@@ -66,6 +66,10 @@ const TIERS: Tier[] = [
     checkoutUrl: '/intake?plan=quarterly',
   },
 ]
+
+export function Pricing() {
+  return (
+    <section id="pricing" className="relative bg-ink px-5 py-24 md:px-8 md:py-32">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-0 -z-0 h-[40vh] w-[70vh] -translate-x-1/2 rounded-full opacity-25 blur-[120px] hours-radial-glow"
@@ -180,7 +184,7 @@ function TiltCard({ tier }: { tier: Tier }) {
 
       <div className="mt-8">
         <MagneticButton
-         href={tier.checkoutUrl}
+          href={tier.checkoutUrl}
           variant={tier.popular ? 'solid' : 'ghost'}
           className="w-full"
         >
