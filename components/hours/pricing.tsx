@@ -20,49 +20,52 @@ type Tier = {
   blurb: string
   features: string[]
   popular?: boolean
+  checkoutUrl: string
 }
 
 const TIERS: Tier[] = [
   {
     name: 'Starter',
-    price: 2,
-    cadence: 'per dose',
-    blurb: 'Try it before you commit. Pay as you go.',
+    price: 49,
+    cadence: 'trial pack',
+    blurb: 'Try the most powerful multi-ingredient ED formula available today. No hype. JUST RESULTS.',
     features: [
       'Doctor consultation included',
-      'Generic sildenafil',
+      'Most powerful multi-ingredient ED formula',
       'Ships when you order',
-      'No subscription',
+      'No subscription required',
     ],
+    checkoutUrl: 'https://hours4ever.com/cart/48806219514080:1',
   },
   {
     name: 'Monthly',
-    price: 20,
+    price: 99,
     cadence: 'per month',
-    blurb: 'Our most popular plan. Best value, always ready.',
+    blurb: 'Our most popular plan. Best value, always ready when you need it.',
     features: [
       'Everything in Starter',
-      'Choice of sildenafil or tadalafil',
+      'Full monthly supply',
       'Free discreet 2-day shipping',
       'Free ongoing physician support',
       'Pause or cancel anytime',
     ],
     popular: true,
+    checkoutUrl: 'https://hours4ever.com/cart/48806219514080:1',
   },
   {
     name: 'Quarterly',
-    price: 45,
+    price: 249,
     cadence: 'per quarter',
-    blurb: 'Set it and forget it. Maximum savings.',
+    blurb: 'Set it and forget it. Maximum savings and continuous coverage.',
     features: [
       'Everything in Monthly',
       'Best per-dose pricing',
       'Priority pharmacy fulfillment',
       'Dedicated care coordinator',
     ],
+    checkoutUrl: 'https://hours4ever.com/cart/48806219514080:1',
   },
 ]
-
 export function Pricing() {
   return (
     <section id="pricing" className="relative bg-ink px-5 py-24 md:px-8 md:py-32">
@@ -180,7 +183,7 @@ function TiltCard({ tier }: { tier: Tier }) {
 
       <div className="mt-8">
         <MagneticButton
-          href="https://hours4ever.com/cart/48806219514080:1"
+         href={tier.checkoutUrl}
           variant={tier.popular ? 'solid' : 'ghost'}
           className="w-full"
         >
