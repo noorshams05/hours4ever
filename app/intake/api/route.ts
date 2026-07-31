@@ -12,11 +12,11 @@ export async function POST(request: Request) {
     const { plan, patientData } = body
 
     const selectedPlan = SHOPIFY_PLANS[plan] || SHOPIFY_PLANS['monthly']
-    const cartUrl = new URL('https://elevate2xl.myshopify.com/cart/add')
-    cartUrl.searchParams.append('id', selectedPlan.variantId)
-    cartUrl.searchParams.append('quantity', '1')
+   const cartUrl = new URL('https://elevate2xl.myshopify.com/cart/add')
+    cartUrl.searchParams.append('items[0][id]', selectedPlan.variantId)
+    cartUrl.searchParams.append('items[0][quantity]', '1')
     if (selectedPlan.sellingPlan) {
-      cartUrl.searchParams.append('selling_plan', selectedPlan.sellingPlan)
+      cartUrl.searchParams.append('items[0][selling_plan]', selectedPlan.sellingPlan)
     }
 
     // Send intake details to Jeff
