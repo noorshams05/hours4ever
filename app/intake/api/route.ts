@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     const { plan, patientData } = body
 
     const selectedPlan = SHOPIFY_PLANS[plan] || SHOPIFY_PLANS['monthly']
-    const cartUrl = new URL('https://elevate2xl.myshopify.com/cart/add')
+    const cartUrl = new URL('https://hours4ever.com/cart/add')
     cartUrl.searchParams.append('id', selectedPlan.variantId)
     cartUrl.searchParams.append('quantity', '1')
     if (selectedPlan.sellingPlan) {
