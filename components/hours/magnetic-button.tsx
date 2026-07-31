@@ -12,7 +12,6 @@ type MagneticButtonProps = {
   children: ReactNode
   className?: string
   variant?: 'solid' | 'ghost'
-  /** Render as a link (default) or a plain button with no navigation. */
   as?: 'link' | 'button'
   href?: string
   onClick?: () => void
@@ -50,7 +49,7 @@ export function MagneticButton({
   }
 
   const base =
-    'group relative inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-semibold tracking-tight transition-shadow duration-500 will-change-transform'
+    'group relative inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-semibold tracking-tight transition-shadow duration-500 will-change-transform active:scale-95'
   const styles =
     variant === 'solid'
       ? 'bg-pink-hot text-white shadow-[0_10px_40px_-12px_rgba(236,12,120,0.7)] hover:shadow-[0_18px_60px_-10px_rgba(236,12,120,0.9)]'
@@ -78,7 +77,12 @@ export function MagneticButton({
   }
 
   return (
-    <motion.a href={href} {...sharedProps}>
+    <motion.a
+      href={href}
+      target={href.startsWith('http') ? '_blank' : undefined}
+      rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+      {...sharedProps}
+    >
       {children}
     </motion.a>
   )
