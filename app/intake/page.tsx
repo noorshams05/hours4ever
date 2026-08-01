@@ -1,232 +1,494 @@
 'use client'
 
-import { useState, Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
-function IntakeFormContent() {
-  const searchParams = useSearchParams()
-  const planParam = searchParams.get('plan') || 'monthly'
+export default function IntakePage() {
+  const router = useRouter()
+  const [selectedPlan, setSelectedPlan] = useState('starter')
+  const [loading, setLoading] = useState(false)
 
-  const [step, setStep] = useState<'contact' | 'medical' | 'summary'>('contact')
   const [formData, setFormData] = useState({
+    // Patient Info
     firstName: '',
     lastName: '',
     email: '',
+    phone: '',
     dob: '',
-    state: '',
-    takingNitrates: 'no',
-    heartCondition: 'no',
-    medicalNotes: '',
+
+    // Erectile Function
+    edDuration: 'Less than 1 month',
+    edFrequency: 'Always present',
+    morningErections: 'Yes',
+    masturbationErections: 'Yes',
+    libidoChange: 'Normal',
+
+    // Heart & General Health
+    avoidSexualActivity: 'No',
+    heartConditions: 'No',
+    chestPain: 'No',
+    lowBloodPressure: 'No',
+
+    // Medication Safety
+    nitrates: 'None',
+    alphaBlockers: 'None',
+    pulmonaryHypertensionMeds: 'No',
+
+    // Medical History (Yes/No for each)
+    kidneyDisease: 'No',
+    liverDisease: 'No',
+    peyroniesDisease: 'No',
+    multipleSclerosis: 'No',
+    parkinsonsDisease: 'No',
+    spinalCordInjury: 'No',
+    lowTestosterone: 'No',
+    sleepApnea: 'No',
+    depressionOrAnxiety: 'No',
+    previousPelvicSurgery: 'No',
+
+    // Allergies & Lifestyle
+    hasAllergies: 'No',
+    allergyDetails: '',
+    smokingStatus: 'Never',
+    height: '',
+    weight: '',
+    exerciseFrequency: 'Never',
+
+    // Previous ED Treatment & Goals
+    bestPreviousMedication: '',
+    sideEffects: 'None',
+    previousStrength: 'Unsure',
+    primaryGoal: 'Get and maintain an erection',
+
+    // Required Safety Questions & Attestation
+    fourHourErection: 'No',
+    bloodDisorders: 'No',
+    suddenVisionOrHearingLoss: 'No',
+    attestationChecked: false,
   })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectableElement | HTMLTextAreaElement | any>) => {
+    const { name, value, type, checked } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }))
   }
 
-  const handleNext = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (step === 'contact') setStep('medical')
-    else if (step === 'medical') setStep('summary')
-  }
+    if (!formData.attestationChecked) {
+      alert('Please check the final attestation before submitting.')
+      return
+    }
 
-const handleCompleteAndCheckout = async () => {
+    setLoading(true)
     try {
       const response = await fetch('/intake/api', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: planParam, patientData: formData }),
+        body: JSON.stringify({
+          plan: selectedPlan,
+          patientData: formData,
+        }),
       })
+
       const data = await response.json()
-      if (data.checkoutUrl) {
+      if (data.success && data.checkoutUrl) {
         window.location.href = data.checkoutUrl
+      } else {
+        alert('Error processing intake submission.')
+        setLoading(false)
       }
     } catch (err) {
-      console.error('Submission error:', err)
+      console.error(err)
+      alert('Network error occurred.')
+      setLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-xl w-full mx-auto space-y-8 bg-zinc-900/80 border border-white/10 p-8 rounded-2xl shadow-2xl">
-        <div>
-          <p className="text-xs uppercase tracking-widest text-[#ff2a85] font-bold text-center mb-2">
-            Confidential Consultation — Plan: {planParam.toUpperCase()}
-          </p>
-          <h2 className="text-3xl font-bold text-center">Medical Intake Form</h2>
-          <p className="mt-2 text-sm text-center text-zinc-400">
-            A licensed U.S. physician will review your responses before your order processes.
-          </p>
-        </div>
+    <main className="min-h-screen bg-black text-white p-6 md:p-12">
+      <div className="max-w-3xl mx-auto bg-neutral-900 border border-neutral-800 rounded-xl p-8 shadow-2xl">
+        <h1 className="text-3xl font-bold mb-2 text-pink-500">Medical Intake Questionnaire</h1>
+        <p className="text-neutral-400 mb-8">Please fill out the details below carefully for clinical review.</p>
 
-        {/* Step Indicator */}
-        <div className="flex justify-between items-center text-xs border-b border-white/10 pb-4">
-          <span className={step === 'contact' ? 'text-[#ff2a85] font-bold' : 'text-zinc-500'}>1. Contact</span>
-          <span className={step === 'medical' ? 'text-[#ff2a85] font-bold' : 'text-zinc-500'}>2. Health</span>
-          <span className={step === 'summary' ? 'text-[#ff2a85] font-bold' : 'text-zinc-500'}>3. Summary</span>
-        </div>
+        <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Plan Selection */}
+          <div className="bg-neutral-800 p-4 rounded-lg">
+            <label className="block text-sm font-semibold mb-2">Select Plan</label>
+            <select
+              value={selectedPlan}
+              onChange={(e) => setSelectedPlan(e.target.value)}
+              className="w-full bg-neutral-900 border border-neutral-700 rounded p-2 text-white"
+            >
+              <option value="starter">Starter - $49.00</option>
+              <option value="monthly">Monthly Subscription</option>
+              <option value="quarterly">Quarterly Subscription</option>
+            </select>
+          </div>
 
-        <form onSubmit={handleNext} className="space-y-6">
-          {step === 'contact' && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs uppercase mb-1 text-zinc-300">First Name</label>
-                  <input
-                    type="text"
-                    required
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    className="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#ff2a85]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs uppercase mb-1 text-zinc-300">Last Name</label>
-                  <input
-                    type="text"
-                    required
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    className="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#ff2a85]"
-                  />
-                </div>
-              </div>
-
+          {/* Personal Information */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Personal Information</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs uppercase mb-1 text-zinc-300">Email Address</label>
+                <label className="block text-sm text-neutral-400 mb-1">First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  required
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-neutral-400 mb-1">Last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  required
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm text-neutral-400 mb-1">Email</label>
                 <input
                   type="email"
-                  required
                   name="email"
+                  required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#ff2a85]"
+                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
                 />
               </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs uppercase mb-1 text-zinc-300">Date of Birth</label>
-                  <input
-                    type="date"
-                    required
-                    name="dob"
-                    value={formData.dob}
-                    onChange={handleChange}
-                    className="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#ff2a85]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs uppercase mb-1 text-zinc-300">State</label>
-                  <input
-                    type="text"
-                    required
-                    name="state"
-                    placeholder="e.g. CA"
-                    value={formData.state}
-                    onChange={handleChange}
-                    className="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#ff2a85]"
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-[#ff2a85] hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-xl transition cursor-pointer"
-              >
-                Continue to Health Assessment →
-              </button>
-            </div>
-          )}
-
-          {step === 'medical' && (
-            <div className="space-y-4">
               <div>
-                <label className="block text-xs uppercase mb-2 text-zinc-300">Do you take nitrates or nitroglycerin?</label>
-                <select
-                  name="takingNitrates"
-                  value={formData.takingNitrates}
+                <label className="block text-sm text-neutral-400 mb-1">Phone</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  value={formData.phone}
                   onChange={handleChange}
-                  className="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#ff2a85]"
-                >
-                  <option value="no">No</option>
-                  <option value="yes">Yes</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs uppercase mb-2 text-zinc-300">Do you have a history of heart conditions or low blood pressure?</label>
-                <select
-                  name="heartCondition"
-                  value={formData.heartCondition}
-                  onChange={handleChange}
-                  className="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#ff2a85]"
-                >
-                  <option value="no">No</option>
-                  <option value="yes">Yes</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs uppercase mb-2 text-zinc-300">Additional Notes / Allergies (Optional)</label>
-                <textarea
-                  name="medicalNotes"
-                  rows={3}
-                  value={formData.medicalNotes}
-                  onChange={handleChange}
-                  className="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#ff2a85]"
+                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
                 />
               </div>
-
-              <div className="flex gap-4">
-                <button
-                  type="button"
-                  onClick={() => setStep('contact')}
-                  className="w-1/3 border border-white/20 text-white font-bold py-3 rounded-xl hover:bg-white/5 transition cursor-pointer"
-                >
-                  Back
-                </button>
-                <button
-                  type="submit"
-                  className="w-2/3 bg-[#ff2a85] hover:bg-pink-600 text-white font-bold py-3 rounded-xl transition cursor-pointer"
-                >
-                  Review Summary →
-                </button>
+              <div>
+                <label className="block text-sm text-neutral-400 mb-1">Date of Birth</label>
+                <input
+                  type="date"
+                  name="dob"
+                  required
+                  value={formData.dob}
+                  onChange={handleChange}
+                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
+                />
               </div>
             </div>
-          )}
+          </div>
 
-          {step === 'summary' && (
-            <div className="space-y-6">
-              <div className="bg-black/50 p-4 rounded-xl space-y-2 text-sm border border-white/10 text-zinc-300">
-                <p><strong>Selected Plan:</strong> {planParam.toUpperCase()}</p>
-                <p><strong>Name:</strong> {formData.firstName} {formData.lastName}</p>
-                <p><strong>Email:</strong> {formData.email}</p>
-                <p><strong>DOB / State:</strong> {formData.dob} ({formData.state})</p>
-                <p><strong>Nitrates:</strong> {formData.takingNitrates.toUpperCase()}</p>
-                <p><strong>Heart Condition:</strong> {formData.heartCondition.toUpperCase()}</p>
-              </div>
-
-              <button
-                type="button"
-                onClick={handleCompleteAndCheckout}
-                className="w-full bg-[#ff2a85] hover:bg-pink-600 text-white font-bold py-3 rounded-xl transition cursor-pointer shadow-lg shadow-pink-500/20"
-              >
-                Submit & Proceed to Checkout →
-              </button>
+          {/* Erectile Function */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Erectile Function</h2>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">How long have you been experiencing erectile dysfunction?</label>
+              <select name="edDuration" value={formData.edDuration} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Less than 1 month</option>
+                <option>1–6 months</option>
+                <option>6–12 months</option>
+                <option>More than 1 year</option>
+              </select>
             </div>
-          )}
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Is your ED:</label>
+              <select name="edFrequency" value={formData.edFrequency} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Always present</option>
+                <option>Most of the time</option>
+                <option>Occasionally</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Do you wake up with morning erections?</label>
+              <select name="morningErections" value={formData.morningErections} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Are you able to get an erection during masturbation?</label>
+              <select name="masturbationErections" value={formData.masturbationErections} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Has your sex drive (libido) changed?</label>
+              <select name="libidoChange" value={formData.libidoChange} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Increased</option>
+                <option>Normal</option>
+                <option>Decreased</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Heart & General Health */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Heart & General Health</h2>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Have you ever been told by a doctor that you should avoid sexual activity because of a heart condition?</label>
+              <select name="avoidSexualActivity" value={formData.avoidSexualActivity} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Have you had a heart attack, stroke, or heart surgery?</label>
+              <select name="heartConditions" value={formData.heartConditions} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Do you experience chest pain during physical activity or sex?</label>
+              <select name="chestPain" value={formData.chestPain} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Do you have low blood pressure or episodes of fainting?</label>
+              <select name="lowBloodPressure" value={formData.lowBloodPressure} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Medication Safety */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Medication Safety (Very Important)</h2>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Are you currently taking nitrates for chest pain?</label>
+              <select name="nitrates" value={formData.nitrates} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Nitroglycerin</option>
+                <option>Isosorbide mononitrate</option>
+                <option>Isosorbide dinitrate</option>
+                <option>None</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Are you taking alpha-blockers?</label>
+              <select name="alphaBlockers" value={formData.alphaBlockers} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Tamsulosin (Flomax)</option>
+                <option>Doxazosin</option>
+                <option>Terazosin</option>
+                <option>None</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Are you taking medications for pulmonary hypertension?</label>
+              <select name="pulmonaryHypertensionMeds" value={formData.pulmonaryHypertensionMeds} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Medical History */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Medical History (Yes/No)</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { label: 'Kidney disease', name: 'kidneyDisease' },
+                { label: 'Liver disease', name: 'liverDisease' },
+                { label: "Peyronie's disease (curved penis)", name: 'peyroniesDisease' },
+                { label: 'Multiple sclerosis', name: 'multipleSclerosis' },
+                { label: "Parkinson's disease", name: 'parkinsonsDisease' },
+                { label: 'Spinal cord injury', name: 'spinalCordInjury' },
+                { label: 'Low testosterone', name: 'lowTestosterone' },
+                { label: 'Sleep apnea', name: 'sleepApnea' },
+                { label: 'Depression or anxiety', name: 'depressionOrAnxiety' },
+                { label: 'Previous pelvic surgery', name: 'previousPelvicSurgery' },
+              ].map((item) => (
+                <div key={item.name} className="bg-neutral-800 p-3 rounded flex justify-between items-center">
+                  <span className="text-sm">{item.label}</span>
+                  <select
+                    name={item.name}
+                    value={(formData as any)[item.name]}
+                    onChange={handleChange}
+                    className="bg-neutral-900 border border-neutral-700 rounded p-1 text-white text-sm"
+                  >
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                  </select>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Allergies & Lifestyle */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Allergies & Lifestyle</h2>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Are you allergic to any medications?</label>
+              <select name="hasAllergies" value={formData.hasAllergies} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white mb-2">
+                <option>No</option>
+                <option>Yes</option>
+              </select>
+              {formData.hasAllergies === 'Yes' && (
+                <input
+                  type="text"
+                  name="allergyDetails"
+                  placeholder="Please list allergies..."
+                  value={formData.allergyDetails}
+                  onChange={handleChange}
+                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
+                />
+              )}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm text-neutral-400 mb-1">Smoking Status</label>
+                <select name="smokingStatus" value={formData.smokingStatus} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                  <option>Never</option>
+                  <option>Former</option>
+                  <option>Current</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm text-neutral-400 mb-1">Height</label>
+                <input
+                  type="text"
+                  name="height"
+                  placeholder="e.g. 5'10&quot;"
+                  value={formData.height}
+                  onChange={handleChange}
+                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-neutral-400 mb-1">Weight</label>
+                <input
+                  type="text"
+                  name="weight"
+                  placeholder="e.g. 170 lbs"
+                  value={formData.weight}
+                  onChange={handleChange}
+                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Exercise Frequency</label>
+              <select name="exerciseFrequency" value={formData.exerciseFrequency} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Never</option>
+                <option>1–2 times/week</option>
+                <option>3–5 times/week</option>
+                <option>Daily</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Previous ED Treatment & Goals */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Previous ED Treatment & Goals</h2>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Did you experience side effects from past treatments?</label>
+              <select name="sideEffects" value={formData.sideEffects} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>None</option>
+                <option>Headache</option>
+                <option>Flushing</option>
+                <option>Nasal congestion</option>
+                <option>Heartburn</option>
+                <option>Vision changes</option>
+                <option>Muscle aches</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Which strength did you take?</label>
+              <select name="previousStrength" value={formData.previousStrength} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Sildenafil 25/50/100 mg</option>
+                <option>Tadalafil 5/10/20 mg</option>
+                <option>Vardenafil</option>
+                <option>Unsure</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">What would you like to improve?</label>
+              <select name="primaryGoal" value={formData.primaryGoal} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>Get and maintain an erection</option>
+                <option>Last longer</option>
+                <option>Increase confidence</option>
+                <option>Improve firmness</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Required Safety Questions */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2 text-pink-500">Required Safety Questions</h2>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Have you ever had an erection lasting more than 4 hours?</label>
+              <select name="fourHourErection" value={formData.fourHourErection} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>No</option>
+                <option>Yes</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Have you ever been diagnosed with sickle cell disease, leukemia, or multiple myeloma?</label>
+              <select name="bloodDisorders" value={formData.bloodDisorders} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>No</option>
+                <option>Yes</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Have you experienced sudden vision or hearing loss?</label>
+              <select name="suddenVisionOrHearingLoss" value={formData.suddenVisionOrHearingLoss} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option>No</option>
+                <option>Yes</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Final Attestation */}
+          <div className="bg-neutral-800 p-4 rounded-lg space-y-3">
+            <h2 className="font-semibold text-white">Final Attestation</h2>
+            <ul className="text-xs text-neutral-400 space-y-1 list-disc pl-4">
+              <li>I certify that the information I provided is accurate and complete.</li>
+              <li>I understand a licensed healthcare provider will review my answers before determining whether treatment is appropriate.</li>
+              <li>I understand that submitting this questionnaire does not guarantee a prescription.</li>
+            </ul>
+            <div className="flex items-center gap-2 pt-2">
+              <input
+                type="checkbox"
+                name="attestationChecked"
+                id="attestation"
+                checked={formData.attestationChecked}
+                onChange={handleChange}
+                className="w-4 h-4 accent-pink-500"
+              />
+              <label htmlFor="attestation" className="text-sm font-medium text-white cursor-pointer">
+                I agree to the terms and certify my statements above.
+              </label>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+          >
+            {loading ? 'Processing & Redirecting...' : 'Submit & Proceed to Checkout'}
+          </button>
         </form>
       </div>
-    </div>
-  )
-}
-
-export default function IntakePage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-black text-white flex items-center justify-center">Loading intake form...</div>}>
-      <IntakeFormContent />
-    </Suspense>
+    </main>
   )
 }
