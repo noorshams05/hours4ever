@@ -67,7 +67,7 @@ export default function IntakePage() {
     attestationChecked: false,
   })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectableElement | HTMLTextAreaElement | any>) => {
+const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | any>) => {
     const { name, value, type, checked } = e.target
     setFormData((prev) => ({
       ...prev,
