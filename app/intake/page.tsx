@@ -9,66 +9,51 @@ export default function IntakePage() {
   const [loading, setLoading] = useState(false)
 
   const [formData, setFormData] = useState({
-    // Patient Info
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     dob: '',
-
-    // Erectile Function
-    edDuration: 'Less than 1 month',
-    edFrequency: 'Always present',
-    morningErections: 'Yes',
-    masturbationErections: 'Yes',
-    libidoChange: 'Normal',
-
-    // Heart & General Health
-    avoidSexualActivity: 'No',
-    heartConditions: 'No',
-    chestPain: 'No',
-    lowBloodPressure: 'No',
-
-    // Medication Safety
-    nitrates: 'None',
-    alphaBlockers: 'None',
-    pulmonaryHypertensionMeds: 'No',
-
-    // Medical History (Yes/No for each)
-    kidneyDisease: 'No',
-    liverDisease: 'No',
-    peyroniesDisease: 'No',
-    multipleSclerosis: 'No',
-    parkinsonsDisease: 'No',
-    spinalCordInjury: 'No',
-    lowTestosterone: 'No',
-    sleepApnea: 'No',
-    depressionOrAnxiety: 'No',
-    previousPelvicSurgery: 'No',
-
-    // Allergies & Lifestyle
-    hasAllergies: 'No',
+    edDuration: '',
+    edFrequency: '',
+    morningErections: '',
+    masturbationErections: '',
+    libidoChange: '',
+    avoidSexualActivity: '',
+    heartConditions: '',
+    chestPain: '',
+    lowBloodPressure: '',
+    nitrates: '',
+    alphaBlockers: '',
+    pulmonaryHypertensionMeds: '',
+    kidneyDisease: '',
+    liverDisease: '',
+    peyroniesDisease: '',
+    multipleSclerosis: '',
+    parkinsonsDisease: '',
+    spinalCordInjury: '',
+    lowTestosterone: '',
+    sleepApnea: '',
+    depressionOrAnxiety: '',
+    previousPelvicSurgery: '',
+    hasAllergies: '',
     allergyDetails: '',
-    smokingStatus: 'Never',
+    smokingStatus: '',
     height: '',
     weight: '',
-    exerciseFrequency: 'Never',
-
-    // Previous ED Treatment & Goals
-    bestPreviousMedication: '',
-    sideEffects: 'None',
-    previousStrength: 'Unsure',
-    primaryGoal: 'Get and maintain an erection',
-
-    // Required Safety Questions & Attestation
-    fourHourErection: 'No',
-    bloodDisorders: 'No',
-    suddenVisionOrHearingLoss: 'No',
+    exerciseFrequency: '',
+    sideEffects: '',
+    previousStrength: '',
+    primaryGoal: '',
+    fourHourErection: '',
+    bloodDisorders: '',
+    suddenVisionOrHearingLoss: '',
     attestationChecked: false,
   })
 
-const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | any>) => {
-    const { name, value, type, checked } = e.target
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target
+    const checked = (e.target as HTMLInputElement).checked
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
@@ -111,7 +96,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
     <main className="min-h-screen bg-black text-white p-6 md:p-12">
       <div className="max-w-3xl mx-auto bg-neutral-900 border border-neutral-800 rounded-xl p-8 shadow-2xl">
         <h1 className="text-3xl font-bold mb-2 text-pink-500">Medical Intake Questionnaire</h1>
-        <p className="text-neutral-400 mb-8">Please fill out the details below carefully for clinical review.</p>
+        <p className="text-neutral-400 mb-8">Please fill out all details below carefully for clinical review.</p>
 
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Plan Selection */}
@@ -133,61 +118,26 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
             <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Personal Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">First Name</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  required
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
-                />
+                <label className="block text-sm text-neutral-400 mb-1">First Name *</label>
+                <input type="text" name="firstName" required value={formData.firstName} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white" />
               </div>
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">Last Name</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  required
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
-                />
+                <label className="block text-sm text-neutral-400 mb-1">Last Name *</label>
+                <input type="text" name="lastName" required value={formData.lastName} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white" />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
-                />
+                <label className="block text-sm text-neutral-400 mb-1">Email *</label>
+                <input type="email" name="email" required value={formData.email} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white" />
               </div>
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">Phone</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  required
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
-                />
+                <label className="block text-sm text-neutral-400 mb-1">Phone *</label>
+                <input type="tel" name="phone" required value={formData.phone} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white" />
               </div>
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">Date of Birth</label>
-                <input
-                  type="date"
-                  name="dob"
-                  required
-                  value={formData.dob}
-                  onChange={handleChange}
-                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
-                />
+                <label className="block text-sm text-neutral-400 mb-1">Date of Birth *</label>
+                <input type="date" name="dob" required value={formData.dob} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white" />
               </div>
             </div>
           </div>
@@ -196,8 +146,9 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
           <div className="space-y-4">
             <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Erectile Function</h2>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">How long have you been experiencing erectile dysfunction?</label>
-              <select name="edDuration" value={formData.edDuration} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">How long have you been experiencing erectile dysfunction? *</label>
+              <select name="edDuration" required value={formData.edDuration} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Less than 1 month</option>
                 <option>1–6 months</option>
                 <option>6–12 months</option>
@@ -205,30 +156,34 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Is your ED:</label>
-              <select name="edFrequency" value={formData.edFrequency} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Is your ED: *</label>
+              <select name="edFrequency" required value={formData.edFrequency} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Always present</option>
                 <option>Most of the time</option>
                 <option>Occasionally</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Do you wake up with morning erections?</label>
-              <select name="morningErections" value={formData.morningErections} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Do you wake up with morning erections? *</label>
+              <select name="morningErections" required value={formData.morningErections} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Yes</option>
                 <option>No</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Are you able to get an erection during masturbation?</label>
-              <select name="masturbationErections" value={formData.masturbationErections} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Are you able to get an erection during masturbation? *</label>
+              <select name="masturbationErections" required value={formData.masturbationErections} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Yes</option>
                 <option>No</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Has your sex drive (libido) changed?</label>
-              <select name="libidoChange" value={formData.libidoChange} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Has your sex drive (libido) changed? *</label>
+              <select name="libidoChange" required value={formData.libidoChange} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Increased</option>
                 <option>Normal</option>
                 <option>Decreased</option>
@@ -240,29 +195,33 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
           <div className="space-y-4">
             <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Heart & General Health</h2>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Have you ever been told by a doctor that you should avoid sexual activity because of a heart condition?</label>
-              <select name="avoidSexualActivity" value={formData.avoidSexualActivity} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Have you ever been told by a doctor that you should avoid sexual activity because of a heart condition? *</label>
+              <select name="avoidSexualActivity" required value={formData.avoidSexualActivity} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Yes</option>
                 <option>No</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Have you had a heart attack, stroke, or heart surgery?</label>
-              <select name="heartConditions" value={formData.heartConditions} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Have you had a heart attack, stroke, or heart surgery? *</label>
+              <select name="heartConditions" required value={formData.heartConditions} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Yes</option>
                 <option>No</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Do you experience chest pain during physical activity or sex?</label>
-              <select name="chestPain" value={formData.chestPain} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Do you experience chest pain during physical activity or sex? *</label>
+              <select name="chestPain" required value={formData.chestPain} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Yes</option>
                 <option>No</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Do you have low blood pressure or episodes of fainting?</label>
-              <select name="lowBloodPressure" value={formData.lowBloodPressure} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Do you have low blood pressure or episodes of fainting? *</label>
+              <select name="lowBloodPressure" required value={formData.lowBloodPressure} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Yes</option>
                 <option>No</option>
               </select>
@@ -273,8 +232,9 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
           <div className="space-y-4">
             <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Medication Safety (Very Important)</h2>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Are you currently taking nitrates for chest pain?</label>
-              <select name="nitrates" value={formData.nitrates} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Are you currently taking nitrates for chest pain? *</label>
+              <select name="nitrates" required value={formData.nitrates} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Nitroglycerin</option>
                 <option>Isosorbide mononitrate</option>
                 <option>Isosorbide dinitrate</option>
@@ -282,8 +242,9 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Are you taking alpha-blockers?</label>
-              <select name="alphaBlockers" value={formData.alphaBlockers} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Are you taking alpha-blockers? *</label>
+              <select name="alphaBlockers" required value={formData.alphaBlockers} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Tamsulosin (Flomax)</option>
                 <option>Doxazosin</option>
                 <option>Terazosin</option>
@@ -291,8 +252,9 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Are you taking medications for pulmonary hypertension?</label>
-              <select name="pulmonaryHypertensionMeds" value={formData.pulmonaryHypertensionMeds} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Are you taking medications for pulmonary hypertension? *</label>
+              <select name="pulmonaryHypertensionMeds" required value={formData.pulmonaryHypertensionMeds} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Yes</option>
                 <option>No</option>
               </select>
@@ -316,13 +278,15 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
                 { label: 'Previous pelvic surgery', name: 'previousPelvicSurgery' },
               ].map((item) => (
                 <div key={item.name} className="bg-neutral-800 p-3 rounded flex justify-between items-center">
-                  <span className="text-sm">{item.label}</span>
+                  <span className="text-sm">{item.label} *</span>
                   <select
                     name={item.name}
+                    required
                     value={(formData as any)[item.name]}
                     onChange={handleChange}
                     className="bg-neutral-900 border border-neutral-700 rounded p-1 text-white text-sm"
                   >
+                    <option value="">Select...</option>
                     <option value="No">No</option>
                     <option value="Yes">Yes</option>
                   </select>
@@ -335,8 +299,9 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
           <div className="space-y-4">
             <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Allergies & Lifestyle</h2>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Are you allergic to any medications?</label>
-              <select name="hasAllergies" value={formData.hasAllergies} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white mb-2">
+              <label className="block text-sm text-neutral-400 mb-1">Are you allergic to any medications? *</label>
+              <select name="hasAllergies" required value={formData.hasAllergies} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white mb-2">
+                <option value="">Select option...</option>
                 <option>No</option>
                 <option>Yes</option>
               </select>
@@ -344,6 +309,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
                 <input
                   type="text"
                   name="allergyDetails"
+                  required
                   placeholder="Please list allergies..."
                   value={formData.allergyDetails}
                   onChange={handleChange}
@@ -353,39 +319,27 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">Smoking Status</label>
-                <select name="smokingStatus" value={formData.smokingStatus} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <label className="block text-sm text-neutral-400 mb-1">Smoking Status *</label>
+                <select name="smokingStatus" required value={formData.smokingStatus} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                  <option value="">Select...</option>
                   <option>Never</option>
                   <option>Former</option>
                   <option>Current</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">Height</label>
-                <input
-                  type="text"
-                  name="height"
-                  placeholder="e.g. 5'10&quot;"
-                  value={formData.height}
-                  onChange={handleChange}
-                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
-                />
+                <label className="block text-sm text-neutral-400 mb-1">Height *</label>
+                <input type="text" name="height" required placeholder="e.g. 5'10&quot;" value={formData.height} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white" />
               </div>
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">Weight</label>
-                <input
-                  type="text"
-                  name="weight"
-                  placeholder="e.g. 170 lbs"
-                  value={formData.weight}
-                  onChange={handleChange}
-                  className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white"
-                />
+                <label className="block text-sm text-neutral-400 mb-1">Weight *</label>
+                <input type="text" name="weight" required placeholder="e.g. 170 lbs" value={formData.weight} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white" />
               </div>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Exercise Frequency</label>
-              <select name="exerciseFrequency" value={formData.exerciseFrequency} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Exercise Frequency *</label>
+              <select name="exerciseFrequency" required value={formData.exerciseFrequency} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Never</option>
                 <option>1–2 times/week</option>
                 <option>3–5 times/week</option>
@@ -398,8 +352,9 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
           <div className="space-y-4">
             <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Previous ED Treatment & Goals</h2>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Did you experience side effects from past treatments?</label>
-              <select name="sideEffects" value={formData.sideEffects} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Did you experience side effects from past treatments? *</label>
+              <select name="sideEffects" required value={formData.sideEffects} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>None</option>
                 <option>Headache</option>
                 <option>Flushing</option>
@@ -410,8 +365,9 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Which strength did you take?</label>
-              <select name="previousStrength" value={formData.previousStrength} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Which strength did you take? *</label>
+              <select name="previousStrength" required value={formData.previousStrength} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Sildenafil 25/50/100 mg</option>
                 <option>Tadalafil 5/10/20 mg</option>
                 <option>Vardenafil</option>
@@ -419,8 +375,9 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">What would you like to improve?</label>
-              <select name="primaryGoal" value={formData.primaryGoal} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">What would you like to improve? *</label>
+              <select name="primaryGoal" required value={formData.primaryGoal} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>Get and maintain an erection</option>
                 <option>Last longer</option>
                 <option>Increase confidence</option>
@@ -434,22 +391,25 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
           <div className="space-y-4">
             <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2 text-pink-500">Required Safety Questions</h2>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Have you ever had an erection lasting more than 4 hours?</label>
-              <select name="fourHourErection" value={formData.fourHourErection} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Have you ever had an erection lasting more than 4 hours? *</label>
+              <select name="fourHourErection" required value={formData.fourHourErection} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>No</option>
                 <option>Yes</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Have you ever been diagnosed with sickle cell disease, leukemia, or multiple myeloma?</label>
-              <select name="bloodDisorders" value={formData.bloodDisorders} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Have you ever been diagnosed with sickle cell disease, leukemia, or multiple myeloma? *</label>
+              <select name="bloodDisorders" required value={formData.bloodDisorders} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>No</option>
                 <option>Yes</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Have you experienced sudden vision or hearing loss?</label>
-              <select name="suddenVisionOrHearingLoss" value={formData.suddenVisionOrHearingLoss} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+              <label className="block text-sm text-neutral-400 mb-1">Have you experienced sudden vision or hearing loss? *</label>
+              <select name="suddenVisionOrHearingLoss" required value={formData.suddenVisionOrHearingLoss} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
                 <option>No</option>
                 <option>Yes</option>
               </select>
@@ -469,12 +429,13 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement 
                 type="checkbox"
                 name="attestationChecked"
                 id="attestation"
+                required
                 checked={formData.attestationChecked}
                 onChange={handleChange}
                 className="w-4 h-4 accent-pink-500"
               />
               <label htmlFor="attestation" className="text-sm font-medium text-white cursor-pointer">
-                I agree to the terms and certify my statements above.
+                I agree to the terms and certify my statements above. *
               </label>
             </div>
           </div>
