@@ -84,7 +84,9 @@ export default function IntakePage() {
       })
 
       const data = await response.json()
-      if (data.success && data.checkoutUrl) {
+      if (data.success && data.requiresReview) {
+        router.push('/intake/review-pending')
+      } else if (data.success && data.checkoutUrl) {
         window.location.href = data.checkoutUrl
       } else {
         alert('Error processing intake submission.')
