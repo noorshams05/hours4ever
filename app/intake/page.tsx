@@ -19,6 +19,11 @@ export default function IntakePage() {
     morningErections: '',
     masturbationErections: '',
     libidoChange: '',
+    severityScale: '',
+    partnerAware: '',
+    ableToPenetrate: '',
+    ableToOrgasm: '',
+    erectionDuration: '',
     avoidSexualActivity: '',
     heartConditions: '',
     chestPain: '',
@@ -118,25 +123,25 @@ export default function IntakePage() {
             <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Personal Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">First Name *</label>
+                <label className="block text-sm text-neutral-400 mb-1">First Name <span className="text-red-500">*</span></label>
                 <input type="text" name="firstName" required value={formData.firstName} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white" />
               </div>
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">Last Name *</label>
+                <label className="block text-sm text-neutral-400 mb-1">Last Name <span className="text-red-500">*</span></label>
                 <input type="text" name="lastName" required value={formData.lastName} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white" />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">Email *</label>
+                <label className="block text-sm text-neutral-400 mb-1">Email <span className="text-red-500">*</span></label>
                 <input type="email" name="email" required value={formData.email} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white" />
               </div>
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">Phone *</label>
+                <label className="block text-sm text-neutral-400 mb-1">Phone <span className="text-red-500">*</span></label>
                 <input type="tel" name="phone" required value={formData.phone} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white" />
               </div>
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">Date of Birth *</label>
+                <label className="block text-sm text-neutral-400 mb-1">Date of Birth <span className="text-red-500">*</span></label>
                 <input type="date" name="dob" required value={formData.dob} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white" />
               </div>
             </div>
@@ -146,7 +151,7 @@ export default function IntakePage() {
           <div className="space-y-4">
             <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Erectile Function</h2>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">How long have you been experiencing erectile dysfunction? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">How long have you been experiencing erectile dysfunction? <span className="text-red-500">*</span></label>
               <select name="edDuration" required value={formData.edDuration} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Less than 1 month</option>
@@ -156,7 +161,7 @@ export default function IntakePage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Is your ED: *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Is your ED: <span className="text-red-500">*</span></label>
               <select name="edFrequency" required value={formData.edFrequency} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Always present</option>
@@ -165,28 +170,77 @@ export default function IntakePage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Do you wake up with morning erections? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Do you wake up with morning erections? <span className="text-red-500">*</span></label>
               <select name="morningErections" required value={formData.morningErections} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Yes</option>
                 <option>No</option>
+                <option>Sometimes</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Are you able to get an erection during masturbation? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Are you able to get an erection during masturbation? <span className="text-red-500">*</span></label>
               <select name="masturbationErections" required value={formData.masturbationErections} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Yes</option>
                 <option>No</option>
+                <option>Sometimes</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Has your sex drive (libido) changed? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Has your sex drive (libido) changed? <span className="text-red-500">*</span></label>
               <select name="libidoChange" required value={formData.libidoChange} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Increased</option>
                 <option>Normal</option>
                 <option>Decreased</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">On a scale of 1–10, how would you rate the severity of your ED? <span className="text-red-500">*</span></label>
+              <select name="severityScale" required value={formData.severityScale} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
+                {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+                  <option key={n} value={n}>{n}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Does your partner know you are seeking treatment? <span className="text-red-500">*</span></label>
+              <select name="partnerAware" required value={formData.partnerAware} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
+                <option>Yes</option>
+                <option>No</option>
+                <option>Sometimes</option>
+                <option>Not applicable</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Are you able to achieve penetration? <span className="text-red-500">*</span></label>
+              <select name="ableToPenetrate" required value={formData.ableToPenetrate} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
+                <option>Yes</option>
+                <option>No</option>
+                <option>Sometimes</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">Are you able to achieve orgasm? <span className="text-red-500">*</span></label>
+              <select name="ableToOrgasm" required value={formData.ableToOrgasm} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
+                <option>Yes</option>
+                <option>No</option>
+                <option>Sometimes</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-neutral-400 mb-1">How long does your erection typically last? <span className="text-red-500">*</span></label>
+              <select name="erectionDuration" required value={formData.erectionDuration} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
+                <option value="">Select option...</option>
+                <option>Less than 1 minute</option>
+                <option>1–5 minutes</option>
+                <option>5–15 minutes</option>
+                <option>More than 15 minutes</option>
               </select>
             </div>
           </div>
@@ -195,35 +249,39 @@ export default function IntakePage() {
           <div className="space-y-4">
             <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Heart & General Health</h2>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Have you ever been told by a doctor that you should avoid sexual activity because of a heart condition? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Have you ever been told by a doctor that you should avoid sexual activity because of a heart condition? <span className="text-red-500">*</span></label>
               <select name="avoidSexualActivity" required value={formData.avoidSexualActivity} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Yes</option>
                 <option>No</option>
+                <option>Sometimes</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Have you had a heart attack, stroke, or heart surgery? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Have you had a heart attack, stroke, or heart surgery? <span className="text-red-500">*</span></label>
               <select name="heartConditions" required value={formData.heartConditions} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Yes</option>
                 <option>No</option>
+                <option>Sometimes</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Do you experience chest pain during physical activity or sex? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Do you experience chest pain during physical activity or sex? <span className="text-red-500">*</span></label>
               <select name="chestPain" required value={formData.chestPain} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Yes</option>
                 <option>No</option>
+                <option>Sometimes</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Do you have low blood pressure or episodes of fainting? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Do you have low blood pressure or episodes of fainting? <span className="text-red-500">*</span></label>
               <select name="lowBloodPressure" required value={formData.lowBloodPressure} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Yes</option>
                 <option>No</option>
+                <option>Sometimes</option>
               </select>
             </div>
           </div>
@@ -232,7 +290,7 @@ export default function IntakePage() {
           <div className="space-y-4">
             <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Medication Safety (Very Important)</h2>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Are you currently taking nitrates for chest pain? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Are you currently taking nitrates for chest pain? <span className="text-red-500">*</span></label>
               <select name="nitrates" required value={formData.nitrates} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Nitroglycerin</option>
@@ -242,7 +300,7 @@ export default function IntakePage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Are you taking alpha-blockers? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Are you taking alpha-blockers? <span className="text-red-500">*</span></label>
               <select name="alphaBlockers" required value={formData.alphaBlockers} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Tamsulosin (Flomax)</option>
@@ -252,11 +310,12 @@ export default function IntakePage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Are you taking medications for pulmonary hypertension? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Are you taking medications for pulmonary hypertension? <span className="text-red-500">*</span></label>
               <select name="pulmonaryHypertensionMeds" required value={formData.pulmonaryHypertensionMeds} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Yes</option>
                 <option>No</option>
+                <option>Sometimes</option>
               </select>
             </div>
           </div>
@@ -278,7 +337,7 @@ export default function IntakePage() {
                 { label: 'Previous pelvic surgery', name: 'previousPelvicSurgery' },
               ].map((item) => (
                 <div key={item.name} className="bg-neutral-800 p-3 rounded flex justify-between items-center">
-                  <span className="text-sm">{item.label} *</span>
+                  <span className="text-sm">{item.label} <span className="text-red-500">*</span></span>
                   <select
                     name={item.name}
                     required
@@ -289,6 +348,7 @@ export default function IntakePage() {
                     <option value="">Select...</option>
                     <option value="No">No</option>
                     <option value="Yes">Yes</option>
+                    <option value="Sometimes">Sometimes</option>
                   </select>
                 </div>
               ))}
@@ -299,7 +359,7 @@ export default function IntakePage() {
           <div className="space-y-4">
             <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Allergies & Lifestyle</h2>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Are you allergic to any medications? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Are you allergic to any medications? <span className="text-red-500">*</span></label>
               <select name="hasAllergies" required value={formData.hasAllergies} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white mb-2">
                 <option value="">Select option...</option>
                 <option>No</option>
@@ -319,7 +379,7 @@ export default function IntakePage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">Smoking Status *</label>
+                <label className="block text-sm text-neutral-400 mb-1">Smoking Status <span className="text-red-500">*</span></label>
                 <select name="smokingStatus" required value={formData.smokingStatus} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                   <option value="">Select...</option>
                   <option>Never</option>
@@ -328,16 +388,16 @@ export default function IntakePage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">Height *</label>
+                <label className="block text-sm text-neutral-400 mb-1">Height <span className="text-red-500">*</span></label>
                 <input type="text" name="height" required placeholder="e.g. 5'10&quot;" value={formData.height} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white" />
               </div>
               <div>
-                <label className="block text-sm text-neutral-400 mb-1">Weight *</label>
+                <label className="block text-sm text-neutral-400 mb-1">Weight <span className="text-red-500">*</span></label>
                 <input type="text" name="weight" required placeholder="e.g. 170 lbs" value={formData.weight} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white" />
               </div>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Exercise Frequency *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Exercise Frequency <span className="text-red-500">*</span></label>
               <select name="exerciseFrequency" required value={formData.exerciseFrequency} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Never</option>
@@ -352,7 +412,7 @@ export default function IntakePage() {
           <div className="space-y-4">
             <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2">Previous ED Treatment & Goals</h2>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Did you experience side effects from past treatments? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Did you experience side effects from past treatments? <span className="text-red-500">*</span></label>
               <select name="sideEffects" required value={formData.sideEffects} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>None</option>
@@ -365,7 +425,7 @@ export default function IntakePage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Which strength did you take? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Which strength did you take? <span className="text-red-500">*</span></label>
               <select name="previousStrength" required value={formData.previousStrength} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Sildenafil 25/50/100 mg</option>
@@ -375,7 +435,7 @@ export default function IntakePage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">What would you like to improve? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">What would you like to improve? <span className="text-red-500">*</span></label>
               <select name="primaryGoal" required value={formData.primaryGoal} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>Get and maintain an erection</option>
@@ -391,27 +451,30 @@ export default function IntakePage() {
           <div className="space-y-4">
             <h2 className="text-xl font-semibold border-b border-neutral-800 pb-2 text-pink-500">Required Safety Questions</h2>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Have you ever had an erection lasting more than 4 hours? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Have you ever had an erection lasting more than 4 hours? <span className="text-red-500">*</span></label>
               <select name="fourHourErection" required value={formData.fourHourErection} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>No</option>
                 <option>Yes</option>
+                <option>Sometimes</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Have you ever been diagnosed with sickle cell disease, leukemia, or multiple myeloma? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Have you ever been diagnosed with sickle cell disease, leukemia, or multiple myeloma? <span className="text-red-500">*</span></label>
               <select name="bloodDisorders" required value={formData.bloodDisorders} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>No</option>
                 <option>Yes</option>
+                <option>Sometimes</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm text-neutral-400 mb-1">Have you experienced sudden vision or hearing loss? *</label>
+              <label className="block text-sm text-neutral-400 mb-1">Have you experienced sudden vision or hearing loss? <span className="text-red-500">*</span></label>
               <select name="suddenVisionOrHearingLoss" required value={formData.suddenVisionOrHearingLoss} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white">
                 <option value="">Select option...</option>
                 <option>No</option>
                 <option>Yes</option>
+                <option>Sometimes</option>
               </select>
             </div>
           </div>
